@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+class Solution
+{
+public:
+          vector<int> findAnagrams(string s1, string s2)
+          {
+                    map<char, int> mp;
+                    int windowStart = 0;
+                    int matched = 0;
+                    vector<int> ans;
+                    for (int windowEnd = 0; windowEnd < s1.size(); windowEnd++)
+                    {
+                              mp[s1[windowEnd]]++;
+                    }
+                    for (int windowEnd = 0; windowEnd < s2.size(); windowEnd++)
+                    {
+                              char c = s2[windowEnd];
+                              if (mp.find(c) != mp.end())
+                              {
+                                        mp[c]--;
+                                        if (mp[c] == 0)
+                                                  matched++;
+                              }
+                              if (matched == mp.size())
+                                        ans.push_back(windowStart);
+                              if (windowEnd >= s1.size() - 1)
+                              {
+                                        if (mp.find(s2[windowStart]) != mp.end())
+                                        {
+                                                  mp[s2[windowStart]]++;
+                                                  if (mp[s2[windowStart]] == 1)
+                                                  {
+                                                            matched--;
+                                                  }
+                                        }
+                                        windowStart++;
+                              }
+                    }
+                    return ans;
+          }
+};
+
+int main()
+{
+          string string1 = "abcccbccd";
+          string string2 = "cbc";
+          Solution s1;
+          // To compute  for all  premutation of string 2 exists in string 1 or not
+          vector<int> vec = s1.findAnagrams(string2, string1);
+          // It will print the starting index of every permutation that exists in string 1;
+          cout << "[ ";
+          for (int i : vec)
+          {
+                    cout << i << " ";
+          }
+          cout << ']';
+}
